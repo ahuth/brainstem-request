@@ -1,6 +1,5 @@
-import { isArray } from 'underscore';
-import { param as toQueryString } from 'jquery';
-import compact from './compact';
+import compact from 'lodash.compact';
+import { stringify as toQueryString } from 'querystringify';
 
 /**
  * Request a resource from a Brainstem API endpoint.
@@ -19,8 +18,8 @@ export function fetch(uri, authToken, brainstemParams) {
   const config = makeConfig('GET', authToken);
   const { filters, include, only, order, perPage, page, search } = brainstemParams;
   const urlParams = toQueryString(compact({
-    include: isArray(include) ? include.join(',') : include,
-    only: isArray(only) ? only.join(',') : only,
+    include: Array.isArray(include) ? include.join(',') : include,
+    only: Array.isArray(only) ? only.join(',') : only,
     order,
     page,
     per_page: perPage,

@@ -1,4 +1,4 @@
-import { omit } from 'underscore';
+import omit from 'lodash.omit';
 
 const nonResultKeys = ['count', 'meta', 'results'];
 
