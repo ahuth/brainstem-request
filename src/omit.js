@@ -1,3 +1,8 @@
+/**
+ * Remove the specified properties from an object.
+ * @param {object} object
+ * @param {string[]} keys
+ */
 export default function omit(object = {}, keys = []) {
   const cloned = {};
 
