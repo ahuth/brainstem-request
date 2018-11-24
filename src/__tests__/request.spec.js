@@ -1,8 +1,8 @@
-import { param as toQueryString } from 'jquery';
-import Deferred from 'frontend/helpers/specs/deferred';
-import * as request from './request';
+import { stringify as toQueryString } from 'querystringify';
+import Deferred from './deferred';
+import * as request from '../request';
 
-describe('frontend/stores/middleware/brainstem/request', () => {
+describe('request', () => {
   beforeEach(function () {
     this.deferred = new Deferred();
     this.fetchSpy = spyOn(window, 'fetch').and.returnValue(this.deferred);

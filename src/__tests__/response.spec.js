@@ -1,6 +1,6 @@
-import * as response from './response';
+import * as response from '../response';
 
-describe('frontend/stores/middleware/brainstem/response', () => {
+describe('response', () => {
   describe('count', () => {
     it('extracts the count from API responses', () => {
       const json = {
