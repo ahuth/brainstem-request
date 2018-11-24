@@ -3,6 +3,7 @@ import { stringify as toQueryString } from 'querystringify';
 
 /**
  * Request a resource from a Brainstem API endpoint.
+ * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
  * @param {string} uri - URI of a resource. Can be a collection (`/api/v1/stories`) or a single item (`/api/v1/stories/1`)
  * @param {string} authToken - Authentication token for the requesting user.
  * @param {object} [brainstemParams] - Brainstem fetch parameters.
@@ -14,7 +15,7 @@ import { stringify as toQueryString } from 'querystringify';
  * @param {number} [brainstemParams.page]
  * @param {string} [brainstemParams.search]
  */
-export function fetch(uri, authToken, brainstemParams) {
+export function fetch(globalFetch, uri, authToken, brainstemParams) {
   const config = makeConfig('GET', authToken);
   const { filters, include, only, order, perPage, page, search } = brainstemParams;
   const urlParams = toQueryString(compact({
@@ -27,51 +28,54 @@ export function fetch(uri, authToken, brainstemParams) {
     ...filters,
   }));
 
-  return window.fetch(`${uri}?${urlParams}`, config).then(normalizeResponse);
+  return globalFetch(`${uri}?${urlParams}`, config).then(normalizeResponse);
 }
 
 /**
  * Create a resource.
+ * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
  * @param {string} uri - URI of the resource to create.
  * @param {string} authToken - Authentication token for the requesting user.
  * @param {string} modelName - Name of the resource to be created.
  * @param {object} modelAttributes
  * @param {object} additionalParams
  */
-export function create(uri, authToken, modelName, modelAttributes, additionalParams) {
+export function create(globalFetch, uri, authToken, modelName, modelAttributes, additionalParams) {
   const config = makeConfig('POST', authToken);
   config.body = JSON.stringify({
     [modelName]: modelAttributes,
     ...additionalParams,
   });
-  return window.fetch(uri, config).then(normalizeResponse);
+  return globalFetch(uri, config).then(normalizeResponse);
 }
 
 /**
  * Update a resource.
+ * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
  * @param {string} uri - URI of the resource to update.
  * @param {string} authToken - Authentication token for the requesting user.
  * @param {string} modelName - Name of the resource to be updated.
  * @param {object} modelAttributes
  * @param {object} additionalParams
  */
-export function update(uri, authToken, modelName, modelAttributes, additionalParams) {
+export function update(globalFetch, uri, authToken, modelName, modelAttributes, additionalParams) {
   const config = makeConfig('PATCH', authToken);
   config.body = JSON.stringify({
     [modelName]: modelAttributes,
     ...additionalParams,
   });
-  return window.fetch(uri, config).then(normalizeResponse);
+  return globalFetch(uri, config).then(normalizeResponse);
 }
 
 /**
  * Destroy a resource.
+ * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
  * @param {string} uri - URI identifying a resource.
  * @param {string} authToken - Authentication token for the requesting user.
  */
-export function destroy(uri, authToken) {
+export function destroy(globalFetch, uri, authToken) {
   const config = makeConfig('DELETE', authToken);
-  return window.fetch(uri, config).then(normalizeResponse);
+  return globalFetch(uri, config).then(normalizeResponse);
 }
 
 function normalizeResponse(response) {

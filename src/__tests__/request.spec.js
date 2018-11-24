@@ -8,7 +8,7 @@ describe('request', () => {
   beforeEach(function () {
     context = {};
     context.deferred = new Deferred();
-    context.fetchSpy = spyOn(window, 'fetch').and.returnValue(context.deferred);
+    context.fetchMock = jest.fn(() => context.deferred);
   });
 
   describe('fetch', () => {
@@ -24,7 +24,7 @@ describe('request', () => {
           creator: [50, 51],
         },
       };
-      context.action = () => request.fetch('/foo', 'hello-world', params);
+      context.action = () => request.fetch(context.fetchMock, '/foo', 'hello-world', params);
     });
 
     it('executes a fetch', function () {
@@ -39,7 +39,8 @@ describe('request', () => {
       });
 
       context.action();
-      expect(context.fetchSpy).toHaveBeenCalledWith(`/foo?${expectedUrlParams}`, {
+      expect(context.fetchMock.mock.calls[0][0]).toEqual(`/foo?${expectedUrlParams}`);
+      expect(context.fetchMock.mock.calls[0][1]).toEqual({
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -74,12 +75,13 @@ describe('request', () => {
 
   describe('destroy', () => {
     beforeEach(function () {
-      context.action = () => request.destroy('/foo/666', 'auth-token');
+      context.action = () => request.destroy(context.fetchMock, '/foo/666', 'auth-token');
     });
 
     it('executes a fetch', function () {
       context.action();
-      expect(context.fetchSpy).toHaveBeenCalledWith('/foo/666', {
+      expect(context.fetchMock.mock.calls[0][0]).toEqual('/foo/666');
+      expect(context.fetchMock.mock.calls[0][1]).toEqual({
         method: 'DELETE',
         credentials: 'include',
         headers: {
@@ -114,12 +116,13 @@ describe('request', () => {
 
   describe('create', () => {
     beforeEach(function () {
-      context.action = () => request.create('/foobars', 'auth-token', 'foobar', { disposition: 'lucky' }, { anotherParam: 665 });
+      context.action = () => request.create(context.fetchMock, '/foobars', 'auth-token', 'foobar', { disposition: 'lucky' }, { anotherParam: 665 });
     });
 
     it('executes a fetch', function () {
       context.action();
-      expect(context.fetchSpy).toHaveBeenCalledWith('/foobars', {
+      expect(context.fetchMock.mock.calls[0][0]).toEqual('/foobars');
+      expect(context.fetchMock.mock.calls[0][1]).toEqual({
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -160,12 +163,13 @@ describe('request', () => {
 
   describe('update', () => {
     beforeEach(function () {
-      context.action = () => request.update('/foobars', 'auth-token', 'foobar', { mood: 'happy' }, { anotherParam: 666 });
+      context.action = () => request.update(context.fetchMock, '/foobars', 'auth-token', 'foobar', { mood: 'happy' }, { anotherParam: 666 });
     });
 
     it('executes a fetch', function () {
       context.action();
-      expect(context.fetchSpy).toHaveBeenCalledWith('/foobars', {
+      expect(context.fetchMock.mock.calls[0][0]).toEqual('/foobars');
+      expect(context.fetchMock.mock.calls[0][1]).toEqual({
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -178,7 +182,7 @@ describe('request', () => {
           },
           anotherParam: 666,
         }),
-      });
+      })
     });
 
     it('returns a promise that resolves when the fetch is successful', function (done) {
