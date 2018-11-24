@@ -1,5 +1,5 @@
-import compact from 'lodash.compact';
 import { stringify as toQueryString } from 'querystringify';
+import compact from './compact';
 
 /**
  * Request a resource from a Brainstem API endpoint.
