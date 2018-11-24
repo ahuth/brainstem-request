@@ -1,5 +1,7 @@
-import * as Request from './request';
-import * as Response from './response';
+import * as request from './request';
+import * as response from './response';
 
-export Request;
-export Response;
+export {
+  request,
+  response,
+};
