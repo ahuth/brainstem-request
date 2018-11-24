@@ -50,7 +50,7 @@ describe('request', () => {
           creator: [50, 51],
         },
       };
-      context.action = () => request.fetch(context.fetchMock, '/foo', 'hello-world', params);
+      context.action = () => request.fetch(context.fetchMock, 'hello-world', '/foo', params);
     });
 
     it('executes a fetch', function () {
@@ -101,7 +101,7 @@ describe('request', () => {
 
   describe('destroy', () => {
     beforeEach(function () {
-      context.action = () => request.destroy(context.fetchMock, '/foo/666', 'auth-token');
+      context.action = () => request.destroy(context.fetchMock, 'auth-token', '/foo/666');
     });
 
     it('executes a fetch', function () {
@@ -142,7 +142,7 @@ describe('request', () => {
 
   describe('create', () => {
     beforeEach(function () {
-      context.action = () => request.create(context.fetchMock, '/foobars', 'auth-token', 'foobar', { disposition: 'lucky' }, { anotherParam: 665 });
+      context.action = () => request.create(context.fetchMock, 'auth-token', '/foobars', 'foobar', { disposition: 'lucky' }, { anotherParam: 665 });
     });
 
     it('executes a fetch', function () {
@@ -189,7 +189,7 @@ describe('request', () => {
 
   describe('update', () => {
     beforeEach(function () {
-      context.action = () => request.update(context.fetchMock, '/foobars', 'auth-token', 'foobar', { mood: 'happy' }, { anotherParam: 666 });
+      context.action = () => request.update(context.fetchMock, 'auth-token', '/foobars', 'foobar', { mood: 'happy' }, { anotherParam: 666 });
     });
 
     it('executes a fetch', function () {
