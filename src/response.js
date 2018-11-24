@@ -1,4 +1,4 @@
-import omit from 'lodash.omit';
+import omit from './omit';
 
 const nonResultKeys = ['count', 'meta', 'results'];
 
