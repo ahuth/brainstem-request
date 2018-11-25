@@ -24,18 +24,18 @@ import { request } from 'brainstem-request';
 
 The imported object will have `fetch`, `create`, `update`, and `destroy` functions on it. Each returns a promise.
 
-Note that a `fetch` implementation (such as `window.fetch`) must be passed to the functions, along with an [authentication token](http://developer.mavenlink.com/#oauth-20).
+Note that a `fetch` implementation (such as `window.fetch`) must be passed to the functions, along with a CSRF token.
 
 For example:
 
 ```js
-const promise = request.fetch(window.fetch, 'secret-auth-token', '/api/tasks', { perPage: 50 });
+const promise = request.fetch(window.fetch, 'csrf-token', '/api/tasks', { perPage: 50 });
 ```
 
 To make this easier to use, you can bind the values for the fetch implementation and the authentication token. For example:
 
 ```js
-const myFetch = request.fetch.bind(null, window.fetch, 'secret-auth-token');
+const myFetch = request.fetch.bind(null, window.fetch, 'csrf-token');
 
 const promise = myFetch('/api/tasks', { perPage: 50 });
 ```

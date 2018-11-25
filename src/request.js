@@ -4,7 +4,7 @@ import compact from './compact';
 /**
  * Request a resource from a Brainstem API endpoint.
  * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
- * @param {string} authToken - Authentication token for the requesting user.
+ * @param {string} csrfToken - Cross-site request forgery token
  * @param {string} uri - URI of a resource. Can be a collection (`/api/v1/stories`) or a single item (`/api/v1/stories/1`)
  * @param {object} [brainstemParams] - Brainstem fetch parameters.
  * @param {object} [brainstemParams.filters]
@@ -15,8 +15,8 @@ import compact from './compact';
  * @param {number} [brainstemParams.page]
  * @param {string} [brainstemParams.search]
  */
-export function fetch(globalFetch, authToken, uri, brainstemParams) {
-  const config = makeConfig('GET', authToken);
+export function fetch(globalFetch, csrfToken, uri, brainstemParams) {
+  const config = makeConfig('GET', csrfToken);
   const { filters, include, only, order, perPage, page, search } = brainstemParams;
   const urlParams = toQueryString(compact({
     include: Array.isArray(include) ? include.join(',') : include,
@@ -34,14 +34,14 @@ export function fetch(globalFetch, authToken, uri, brainstemParams) {
 /**
  * Create a resource.
  * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
- * @param {string} authToken - Authentication token for the requesting user.
+ * @param {string} csrfToken - Cross-site request forgery token
  * @param {string} uri - URI of the resource to create.
  * @param {string} modelName - Name of the resource to be created.
  * @param {object} modelAttributes
  * @param {object} additionalParams
  */
-export function create(globalFetch, authToken, uri, modelName, modelAttributes, additionalParams) {
-  const config = makeConfig('POST', authToken);
+export function create(globalFetch, csrfToken, uri, modelName, modelAttributes, additionalParams) {
+  const config = makeConfig('POST', csrfToken);
   config.body = JSON.stringify({
     [modelName]: modelAttributes,
     ...additionalParams,
@@ -52,14 +52,14 @@ export function create(globalFetch, authToken, uri, modelName, modelAttributes, 
 /**
  * Update a resource.
  * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
- * @param {string} authToken - Authentication token for the requesting user.
+ * @param {string} csrfToken - Cross-site request forgery token
  * @param {string} uri - URI of the resource to update.
  * @param {string} modelName - Name of the resource to be updated.
  * @param {object} modelAttributes
  * @param {object} additionalParams
  */
-export function update(globalFetch, authToken, uri, modelName, modelAttributes, additionalParams) {
-  const config = makeConfig('PATCH', authToken);
+export function update(globalFetch, csrfToken, uri, modelName, modelAttributes, additionalParams) {
+  const config = makeConfig('PATCH', csrfToken);
   config.body = JSON.stringify({
     [modelName]: modelAttributes,
     ...additionalParams,
@@ -70,11 +70,11 @@ export function update(globalFetch, authToken, uri, modelName, modelAttributes, 
 /**
  * Destroy a resource.
  * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
- * @param {string} authToken - Authentication token for the requesting user.
+ * @param {string} csrfToken - Cross-site request forgery token
  * @param {string} uri - URI identifying a resource.
  */
-export function destroy(globalFetch, authToken, uri) {
-  const config = makeConfig('DELETE', authToken);
+export function destroy(globalFetch, csrfToken, uri) {
+  const config = makeConfig('DELETE', csrfToken);
   return globalFetch(uri, config).then(normalizeResponse);
 }
 
@@ -87,13 +87,13 @@ function normalizeResponse(response) {
   });
 }
 
-function makeConfig(httpMethod, authToken) {
+function makeConfig(httpMethod, csrfToken) {
   return {
     method: httpMethod,
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRF-Token': authToken,
+      'X-CSRF-Token': csrfToken,
     },
   };
 }

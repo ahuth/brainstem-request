@@ -50,7 +50,7 @@ describe('request', () => {
           creator: [50, 51],
         },
       };
-      context.action = () => request.fetch(context.fetchMock, 'hello-world', '/foo', params);
+      context.action = () => request.fetch(context.fetchMock, 'csrf-token', '/foo', params);
     });
 
     it('executes a fetch', function () {
@@ -71,7 +71,7 @@ describe('request', () => {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': 'hello-world',
+          'X-CSRF-Token': 'csrf-token',
         },
       });
     });
@@ -101,7 +101,7 @@ describe('request', () => {
 
   describe('destroy', () => {
     beforeEach(function () {
-      context.action = () => request.destroy(context.fetchMock, 'auth-token', '/foo/666');
+      context.action = () => request.destroy(context.fetchMock, 'csrf-token', '/foo/666');
     });
 
     it('executes a fetch', function () {
@@ -112,7 +112,7 @@ describe('request', () => {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': 'auth-token',
+          'X-CSRF-Token': 'csrf-token',
         },
       });
     });
@@ -142,7 +142,7 @@ describe('request', () => {
 
   describe('create', () => {
     beforeEach(function () {
-      context.action = () => request.create(context.fetchMock, 'auth-token', '/foobars', 'foobar', { disposition: 'lucky' }, { anotherParam: 665 });
+      context.action = () => request.create(context.fetchMock, 'csrf-token', '/foobars', 'foobar', { disposition: 'lucky' }, { anotherParam: 665 });
     });
 
     it('executes a fetch', function () {
@@ -153,7 +153,7 @@ describe('request', () => {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': 'auth-token',
+          'X-CSRF-Token': 'csrf-token',
         },
         body: JSON.stringify({
           foobar: {
@@ -189,7 +189,7 @@ describe('request', () => {
 
   describe('update', () => {
     beforeEach(function () {
-      context.action = () => request.update(context.fetchMock, 'auth-token', '/foobars', 'foobar', { mood: 'happy' }, { anotherParam: 666 });
+      context.action = () => request.update(context.fetchMock, 'csrf-token', '/foobars', 'foobar', { mood: 'happy' }, { anotherParam: 666 });
     });
 
     it('executes a fetch', function () {
@@ -200,7 +200,7 @@ describe('request', () => {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': 'auth-token',
+          'X-CSRF-Token': 'csrf-token',
         },
         body: JSON.stringify({
           foobar: {
