@@ -6,7 +6,7 @@ import compact from './compact';
  * @param {function} globalFetch - Fetch function to use - likely to be `window.fetch`
  * @param {string} csrfToken - Cross-site request forgery token
  * @param {string} uri - URI of a resource. Can be a collection (`/api/v1/stories`) or a single item (`/api/v1/stories/1`)
- * @param {object} [brainstemParams] - Brainstem fetch parameters.
+ * @param {object} [brainstemParams] - Brainstem fetch parameters
  * @param {object} [brainstemParams.filters]
  * @param {array} [brainstemParams.include]
  * @param {array} [brainstemParams.only]
