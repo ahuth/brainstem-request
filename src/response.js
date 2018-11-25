@@ -1,7 +1,5 @@
 import omit from './omit';
 
-const nonResultKeys = ['count', 'meta', 'results'];
-
 /**
  * Get the total number of matching records for the request.
  * @param {object} json - A Brainstem API response.
@@ -31,6 +29,7 @@ export function ids(json) {
  * @param {object} json - A Brainstem API response.
  */
 export function objects(json) {
+  const nonResultKeys = ['count', 'meta', 'results'];
   return omit(json, nonResultKeys);
 }
 
