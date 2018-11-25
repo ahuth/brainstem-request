@@ -32,6 +32,14 @@ For example:
 const promise = request.fetch(window.fetch, 'secret-auth-token', '/api/tasks', { perPage: 50 });
 ```
 
+To make this easier to use, you can bind the values for the fetch implementation and the authentication token. For example:
+
+```js
+const myFetch = request.fetch.bind(null, window.fetch, 'secret-auth-token');
+
+const promise = myFetch('/api/tasks', { perPage: 50 });
+```
+
 ### Processing responses
 
 Import the response helpers:
